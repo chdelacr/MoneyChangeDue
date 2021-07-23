@@ -54,6 +54,25 @@ namespace MoneyChangeDue
 				Console.WriteLine("Paid amount is less than the product price. Please make sure to enter the correct values.");
 				Environment.Exit(0);
 			}
+
+			// Use sorted list to save count per denomination
+			SortedList<decimal, decimal> changeCalc = new();
+
+			foreach (decimal money in currencies)
+			{
+				if (changeDue / money >= 1)
+				{
+					changeCalc.Add(money, Math.Truncate(changeDue / money));
+				}
+			}
+
+			// Display optimum change details from sorted list
+			Console.WriteLine("Change details per denomination:");
+			Console.WriteLine("Denomination - Total");
+			foreach (decimal money in changeCalc.Keys)
+			{	
+				Console.WriteLine("$" + money + " - " + changeCalc[money]);
+			}
 		}
 	}
 }
