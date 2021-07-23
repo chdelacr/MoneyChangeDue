@@ -20,6 +20,18 @@ namespace MoneyChangeDue
 				Console.WriteLine("Invalid country code. Please make sure to enter one of the country codes between parenthesis.");
 				Environment.Exit(0);
 			}
+
+			NewTransaction();
 		}
-    }
+
+		public static void NewTransaction()
+        {
+			// Product price and paid amount
+			Console.Write("Product price: ");
+			decimal productPrice = decimal.Parse(Console.ReadLine());
+
+			Console.Write("Paid amount: ");
+			decimal paidAmount = decimal.Parse(Console.ReadLine());
+		}
+	}
 }
