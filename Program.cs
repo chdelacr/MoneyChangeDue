@@ -32,6 +32,28 @@ namespace MoneyChangeDue
 
 			Console.Write("Paid amount: ");
 			decimal paidAmount = decimal.Parse(Console.ReadLine());
+
+			CalcChange(productPrice, paidAmount);
+		}
+
+		public static void CalcChange(decimal productPrice, decimal paidAmount)
+		{
+			// Calculate and validate change due
+			decimal changeDue = paidAmount - productPrice;
+
+			if (changeDue > 0)
+			{
+				Console.WriteLine("Total change due: " + changeDue);
+			}
+			else if (changeDue == 0)
+			{
+				Console.WriteLine("No change due.");
+			}
+			else
+			{
+				Console.WriteLine("Paid amount is less than the product price. Please make sure to enter the correct values.");
+				Environment.Exit(0);
+			}
 		}
 	}
 }
