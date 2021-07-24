@@ -60,7 +60,8 @@ namespace MoneyChangeDue
 		/*
 		 * CalculateChange method can be called by sending product price and paid amount as arguments.
 		 * This method will return a sorted list with the optimum change details per denomination.
-		 */
+         * This overloaded method is used by the main program.
+		*/
 		public static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount)
 		{
 			SortedList<decimal, decimal> changeCalc = new SortedList<decimal, decimal>();
@@ -119,7 +120,11 @@ namespace MoneyChangeDue
 			return changeCalc;
 		}
 
-        // Overloading method to accept list of money denominations
+        /*
+		 * CalculateChange method can be called by sending product price, paid amount and money denominations as arguments.
+		 * This method will return a sorted list with the optimum change details per denomination.
+         * This overloaded method can be used by declaring its static class.
+		*/
         public static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount, List<decimal> moneyDenominations)
         {
             SortedList<decimal, decimal> changeCalc = new SortedList<decimal, decimal>();
