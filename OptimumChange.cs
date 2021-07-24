@@ -18,8 +18,9 @@ namespace MoneyChangeDue
 			// Validate country code
 			if (moneyDenominations.Count == 0)
 			{
-				Console.WriteLine("\nInvalid country code. Please make sure to enter one of the country codes between parenthesis.");
-				Environment.Exit(0);
+				Console.WriteLine("\nInvalid country code. Please make sure to enter one of the country codes between parenthesis. Press any key to exit.");
+                Console.ReadLine();
+                Environment.Exit(0);
 			}
 
 			BeginTransaction();
@@ -94,7 +95,7 @@ namespace MoneyChangeDue
 			else
 			{
 				Console.WriteLine("\nEntered amounts have more than two decimals. Please make sure to enter the correct values.");
-                Environment.Exit(0);
+                BeginTransaction();
 			}
 			
 			try
@@ -113,7 +114,8 @@ namespace MoneyChangeDue
 			}
 			catch (DivideByZeroException)
 			{
-				Console.WriteLine("\nA money denomination cannot be equal to 0.");
+				Console.WriteLine("\nA money denomination cannot be equal to 0. Press any key to exit.");
+                Console.ReadLine();
                 Environment.Exit(0);
 			}
 
@@ -205,7 +207,6 @@ namespace MoneyChangeDue
 				}
 				else if (response == 'N')
 				{
-					Console.WriteLine("\nExiting program...");
 					Environment.Exit(0);
 				}
 				else
