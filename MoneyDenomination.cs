@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MoneyChangeDue
 {
@@ -20,9 +16,13 @@ namespace MoneyChangeDue
 				currencies.Add(20);
 				currencies.Add(10);
 				currencies.Add(5);
-				currencies.Add(1);
-				currencies.Add(0.5m);
-			}
+                currencies.Add(2);
+                currencies.Add(1);
+				currencies.Add(0.50m);
+                currencies.Add(0.20m);
+                currencies.Add(0.10m);
+                currencies.Add(0.05m);
+            }
 			else if (countryCode.ToUpper() == "US")
 			{
 				currencies.Add(100);
@@ -32,9 +32,9 @@ namespace MoneyChangeDue
 				currencies.Add(5);
 				currencies.Add(2);
 				currencies.Add(1);
-				currencies.Add(0.5m);
+				currencies.Add(0.50m);
 				currencies.Add(0.25m);
-				currencies.Add(0.1m);
+				currencies.Add(0.10m);
 				currencies.Add(0.05m);
 				currencies.Add(0.01m);
 			}
