@@ -26,49 +26,70 @@ namespace MoneyChangeDue
 
 		public static void BeginTransaction()
         {
-			// Product price and paid amount
-			Console.Write("Product price: ");
-			decimal productPrice = decimal.Parse(Console.ReadLine());
+			try
+            {
+				// Product price and paid amount
+				Console.Write("Product price: ");
+				decimal productPrice = decimal.Parse(Console.ReadLine());
 
-			Console.Write("Paid amount: ");
-			decimal paidAmount = decimal.Parse(Console.ReadLine());
+				Console.Write("Paid amount: ");
+				decimal paidAmount = decimal.Parse(Console.ReadLine());
 
-			CalcChange(productPrice, paidAmount);
+				CalcChange(productPrice, paidAmount);
+			}
+			catch
+            {
+				Console.WriteLine("Only numeric values allowed.");
+            }			
 		}
 
 		public static void CalcChange(decimal productPrice, decimal paidAmount)
 		{
-			// Calculate and validate change due
-			decimal changeDue = paidAmount - productPrice;
+			decimal changeDue = 0;
+			try
+            {
+				// Calculate and validate change due
+				changeDue = paidAmount - productPrice;
 
-			if (changeDue > 0)
-			{
-				Console.WriteLine("Total change due: " + changeDue);
+				if (changeDue > 0)
+				{
+					Console.WriteLine("Total change due: " + changeDue);
+				}
+				else if (changeDue == 0)
+				{
+					Console.WriteLine("No change due.");
+					BeginTransaction();
+				}
+				else
+				{
+					Console.WriteLine("Paid amount is less than the product price. Please make sure to enter the correct values.");
+					BeginTransaction();
+				}
 			}
-			else if (changeDue == 0)
-			{
-				Console.WriteLine("No change due.");
-				NewTransaction();
-			}
-			else
-			{
-				Console.WriteLine("Paid amount is less than the product price. Please make sure to enter the correct values.");
-				NewTransaction();
+			catch
+            {
+				Console.WriteLine("Only numeric values allowed.");
 			}
 
 			// Use sorted list to save count per denomination
 			SortedList<decimal, decimal> changeCalc = new();
-
-			foreach (decimal denomination in moneyDenominations)
-			{
-				if (changeDue / denomination >= 1)
+			try
+            {
+				foreach (decimal denomination in moneyDenominations)
 				{
-					changeCalc.Add(denomination, Math.Truncate(changeDue / denomination));
+					if (changeDue / denomination >= 1)
+					{
+						changeCalc.Add(denomination, Math.Truncate(changeDue / denomination));
 
-					// Update change as the remainder with respect to money denomination
-					changeDue %= denomination;
+						// Update change as the remainder with respect to money denomination
+						changeDue %= denomination;
+					}
 				}
 			}
+			catch (DivideByZeroException)
+            {
+				Console.WriteLine("A money denomination cannot be equal to 0.");
+            }			
 
 			// Display optimum change details from sorted list
 			Console.WriteLine("Change details per denomination:");
@@ -82,14 +103,22 @@ namespace MoneyChangeDue
 		}
 
 		public static void NewTransaction() {
+			// New transaction after calc
 			Console.Write("New transaction? (Y, N)");
-			if (Console.ReadLine().ToUpper() == "Y") {
+
+			char response = char.Parse(Console.ReadLine());
+			if (response == 'Y') {
 				BeginTransaction();
 			}
-			else {
+			else if (response == 'N') {
 				Console.WriteLine("Exiting program...");
 				Environment.Exit(0);
 			}
+			else
+            {
+				Console.WriteLine("Invalid selection, please try again.");
+				NewTransaction();
+            }
 		}
 	}
 }
