@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MoneyChangeDue
 {
-    static class OptimumChange
+    public static class OptimumChange
     {
 		public static List<decimal> moneyDenominations;
 		public static string countryCode;
@@ -66,43 +66,34 @@ namespace MoneyChangeDue
 			SortedList<decimal, decimal> changeCalc = new SortedList<decimal, decimal>();
 			decimal changeDue = 0;
 
-			try
+			// Validate that amounts have only two decimals
+			bool productPriceIsCorrect = (productPrice * 100) == Math.Truncate(productPrice * 100);
+			bool paidAmountIsCorrect = (paidAmount * 100) == Math.Truncate(paidAmount * 100);
+
+			if (productPriceIsCorrect && paidAmountIsCorrect)
 			{
-				// Validate that amounts have only two decimals
-				bool productPriceIsCorrect = (productPrice * 100) == Math.Truncate(productPrice * 100);
-				bool paidAmountIsCorrect = (paidAmount * 100) == Math.Truncate(paidAmount * 100);
+				// Calculate and validate change due
+				changeDue = paidAmount - productPrice;
 
-				if (productPriceIsCorrect && paidAmountIsCorrect)
+				if (changeDue > 0)
 				{
-					// Calculate and validate change due
-					changeDue = paidAmount - productPrice;
-
-					if (changeDue > 0)
-					{
-						Console.WriteLine("\nTotal change due: " + changeDue);
-					}
-					else if (changeDue == 0)
-					{
-						Console.WriteLine("\nNo change due.");
-						BeginTransaction();
-					}
-					else
-					{
-						Console.WriteLine("\nPaid amount is less than the product price. Please make sure to enter the correct values.");
-						BeginTransaction();
-					}
+					Console.WriteLine("\nTotal change due: " + changeDue);
+				}
+				else if (changeDue == 0)
+				{
+					Console.WriteLine("\nNo change due.");
+					BeginTransaction();
 				}
 				else
 				{
-					Console.WriteLine("\nEntered amounts have more than two decimals. Please make sure to enter the correct values.");
-                    Environment.Exit(0);
+					Console.WriteLine("\nPaid amount is less than the product price. Please make sure to enter the correct values.");
+					BeginTransaction();
 				}
 			}
-			catch
+			else
 			{
-				// Print exception message and return null sorted list
-				Console.WriteLine("\nOnly numeric values allowed. Please try again.");
-				return changeCalc;
+				Console.WriteLine("\nEntered amounts have more than two decimals. Please make sure to enter the correct values.");
+                Environment.Exit(0);
 			}
 			
 			try
@@ -122,12 +113,81 @@ namespace MoneyChangeDue
 			catch (DivideByZeroException)
 			{
 				Console.WriteLine("\nA money denomination cannot be equal to 0.");
+                Environment.Exit(0);
 			}
 
 			return changeCalc;
 		}
 
-		static void NewTransaction() {
+        // Overloading method to accept list of money denominations
+        public static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount, List<decimal> moneyDenominations)
+        {
+            SortedList<decimal, decimal> changeCalc = new SortedList<decimal, decimal>();
+            decimal changeDue = 0;
+
+            try
+            {
+                // Validate that amounts have only two decimals
+                bool productPriceIsCorrect = (productPrice * 100) == Math.Truncate(productPrice * 100);
+                bool paidAmountIsCorrect = (paidAmount * 100) == Math.Truncate(paidAmount * 100);
+
+                if (productPriceIsCorrect && paidAmountIsCorrect)
+                {
+                    // Calculate and validate change due
+                    changeDue = paidAmount - productPrice;
+
+                    if (changeDue > 0)
+                    {
+                        Console.WriteLine("\nTotal change due: " + changeDue);
+                    }
+                    else if (changeDue == 0)
+                    {
+                        Console.WriteLine("\nNo change due.");
+                        return changeCalc;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nPaid amount is less than the product price. Please make sure to enter the correct values.");
+                        return changeCalc;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nEntered amounts have more than two decimals. Please make sure to enter the correct values.");
+                    return changeCalc;
+                }
+            }
+            catch
+            {
+                // Print exception message and return null sorted list
+                Console.WriteLine("\nOnly numeric values allowed. Please try again.");
+                return changeCalc;
+            }
+
+            try
+            {
+                // Save count per denomination
+                foreach (decimal denomination in moneyDenominations)
+                {
+                    if (changeDue / denomination >= 1)
+                    {
+                        changeCalc.Add(denomination, Math.Truncate(changeDue / denomination));
+
+                        // Update change as the remainder with respect to money denomination
+                        changeDue %= denomination;
+                    }
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                Console.WriteLine("\nA money denomination cannot be equal to 0.");
+                Environment.Exit(0);
+            }
+
+            return changeCalc;
+        }
+
+        static void NewTransaction() {
 			try
 			{
 				// New transaction after calc

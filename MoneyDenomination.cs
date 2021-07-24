@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChangeDue
 {
-    static class MoneyDenomination
+    public static class MoneyDenomination
     {
 		public static List<decimal> SetMoneyDenomination(string countryCode)
 		{
