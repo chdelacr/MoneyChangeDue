@@ -15,7 +15,7 @@ namespace MoneyChangeDue
 			moneyDenominations = MoneyDenomination.SetMoneyDenomination(countryCode);
 
 			// Validate country code
-			if (moneyDenominations == null)
+			if (moneyDenominations.Count == 0)
 			{
 				Console.WriteLine("Invalid country code. Please make sure to enter one of the country codes between parenthesis.");
 				Environment.Exit(0);

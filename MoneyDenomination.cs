@@ -12,6 +12,7 @@ namespace MoneyChangeDue
 		{
 			List<decimal> currencies = new();
 
+			// Money denominations can be added per country code
 			if (countryCode.ToUpper() == "MX")
 			{
 				currencies.Add(100);
@@ -36,10 +37,6 @@ namespace MoneyChangeDue
 				currencies.Add(0.1m);
 				currencies.Add(0.05m);
 				currencies.Add(0.01m);
-			}
-			else
-			{
-				return null;
 			}
 
 			return currencies;
