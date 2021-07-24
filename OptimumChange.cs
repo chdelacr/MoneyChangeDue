@@ -143,31 +143,18 @@ namespace MoneyChangeDue
                     // Calculate and validate change due
                     changeDue = paidAmount - productPrice;
 
-                    if (changeDue > 0)
+                    if (changeDue <= 0)
                     {
-                        Console.WriteLine("\nTotal change due: " + changeDue);
-                    }
-                    else if (changeDue == 0)
-                    {
-                        Console.WriteLine("\nNo change due.");
-                        return changeCalc;
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nPaid amount is less than the product price. Please make sure to enter the correct values.");
                         return changeCalc;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("\nEntered amounts have more than two decimals. Please make sure to enter the correct values.");
                     return changeCalc;
                 }
             }
             catch
             {
-                // Print exception message and return null sorted list
-                Console.WriteLine("\nOnly numeric values allowed. Please try again.");
                 return changeCalc;
             }
 
@@ -187,8 +174,7 @@ namespace MoneyChangeDue
             }
             catch (DivideByZeroException)
             {
-                Console.WriteLine("\nA money denomination cannot be equal to 0.");
-                Environment.Exit(0);
+                return changeCalc;
             }
 
             return changeCalc;
