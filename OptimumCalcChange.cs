@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MoneyChangeDue
 {
-    class Program
+    static class OptimumCalcChange
     {
 		public static List<decimal> currencies;
 		static void Main(string[] args)
@@ -21,10 +21,10 @@ namespace MoneyChangeDue
 				Environment.Exit(0);
 			}
 
-			NewTransaction();
+			BeginTransaction();
 		}
 
-		public static void NewTransaction()
+		public static void BeginTransaction()
         {
 			// Product price and paid amount
 			Console.Write("Product price: ");
@@ -48,11 +48,12 @@ namespace MoneyChangeDue
 			else if (changeDue == 0)
 			{
 				Console.WriteLine("No change due.");
+				NewTransaction();
 			}
 			else
 			{
 				Console.WriteLine("Paid amount is less than the product price. Please make sure to enter the correct values.");
-				Environment.Exit(0);
+				NewTransaction();
 			}
 
 			// Use sorted list to save count per denomination
@@ -72,6 +73,19 @@ namespace MoneyChangeDue
 			foreach (decimal money in changeCalc.Keys)
 			{	
 				Console.WriteLine("$" + money + " - " + changeCalc[money]);
+			}
+
+			NewTransaction();
+		}
+
+		public static void NewTransaction() {
+			Console.Write("New transaction? (Y, N)");
+			if (Console.ReadLine().ToUpper() == "Y") {
+				BeginTransaction();
+			}
+			else {
+				Console.WriteLine("Exiting program...");
+				Environment.Exit(0);
 			}
 		}
 	}
