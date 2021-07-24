@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MoneyChangeDue
 {
-    static class OptimumCalcChange
+    static class OptimumChange
     {
 		public static List<decimal> moneyDenominations;
 		static void Main(string[] args)
@@ -43,7 +43,7 @@ namespace MoneyChangeDue
 				BeginTransaction();
             }
 
-			SortedList<decimal, decimal> changeCalc = CalcChange(productPrice, paidAmount);
+			SortedList<decimal, decimal> changeCalc = CalculateChange(productPrice, paidAmount);
 
 			// Display optimum change details from sorted list
 			Console.WriteLine("\nChange details per denomination:");
@@ -60,7 +60,7 @@ namespace MoneyChangeDue
 		 * CalcChange method can be called by sending product price and paid amount as arguments.
 		 * This method will return a sorted list with the optimum change details per denomination.
 		 */
-		public static SortedList<decimal, decimal> CalcChange(decimal productPrice, decimal paidAmount)
+		public static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount)
 		{
 			SortedList<decimal, decimal> changeCalc = new();
 			decimal changeDue = 0;
