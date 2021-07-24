@@ -17,7 +17,7 @@ namespace MoneyChangeDue
 			// Validate country code
 			if (moneyDenominations.Count == 0)
 			{
-				Console.WriteLine("Invalid country code. Please make sure to enter one of the country codes between parenthesis.");
+				Console.WriteLine("\nInvalid country code. Please make sure to enter one of the country codes between parenthesis.");
 				Environment.Exit(0);
 			}
 
@@ -31,7 +31,7 @@ namespace MoneyChangeDue
 			try
             {
 				// Product price and paid amount
-				Console.Write("Product price: ");
+				Console.Write("\nProduct price: ");
 				productPrice = decimal.Parse(Console.ReadLine());
 
 				Console.Write("Paid amount: ");
@@ -39,13 +39,14 @@ namespace MoneyChangeDue
 			}
 			catch
             {
-				Console.WriteLine("Only numeric values allowed.");
+				Console.WriteLine("\nOnly numeric values allowed. Please try again.");
+				BeginTransaction();
             }
 
 			SortedList<decimal, decimal> changeCalc = CalcChange(productPrice, paidAmount);
 
 			// Display optimum change details from sorted list
-			Console.WriteLine("Change details per denomination:");
+			Console.WriteLine("\nChange details per denomination:");
 			Console.WriteLine("Denomination - Total");
 			foreach (decimal denomination in changeCalc.Keys)
 			{
@@ -57,7 +58,9 @@ namespace MoneyChangeDue
 
 		public static SortedList<decimal, decimal> CalcChange(decimal productPrice, decimal paidAmount)
 		{
+			SortedList<decimal, decimal> changeCalc = new();
 			decimal changeDue = 0;
+
 			try
 			{
 				// Validate that amounts have only two decimals
@@ -71,30 +74,31 @@ namespace MoneyChangeDue
 
 					if (changeDue > 0)
 					{
-						Console.WriteLine("Total change due: " + changeDue);
+						Console.WriteLine("\nTotal change due: " + changeDue);
 					}
 					else if (changeDue == 0)
 					{
-						Console.WriteLine("No change due.");
+						Console.WriteLine("\nNo change due.");
 						BeginTransaction();
 					}
 					else
 					{
-						Console.WriteLine("Paid amount is less than the product price. Please make sure to enter the correct values.");
+						Console.WriteLine("\nPaid amount is less than the product price. Please make sure to enter the correct values.");
 						BeginTransaction();
 					}
 				}
 				else
 				{
-					Console.WriteLine("Entered amounts have more than two decimals. Please make sure to enter the correct values.");
+					Console.WriteLine("\nEntered amounts have more than two decimals. Please make sure to enter the correct values.");
 				}
 			}
 			catch
 			{
-				Console.WriteLine("Only numeric values allowed.");
+				// Print exception message and return null sorted list
+				Console.WriteLine("\nOnly numeric values allowed. Please try again.");
+				return changeCalc;
 			}
-
-			SortedList<decimal, decimal> changeCalc = new();
+			
 			try
 			{
 				// Save count per denomination
@@ -111,7 +115,7 @@ namespace MoneyChangeDue
 			}
 			catch (DivideByZeroException)
 			{
-				Console.WriteLine("A money denomination cannot be equal to 0.");
+				Console.WriteLine("\nA money denomination cannot be equal to 0.");
 			}
 
 			return changeCalc;
@@ -119,19 +123,19 @@ namespace MoneyChangeDue
 
 		public static void NewTransaction() {
 			// New transaction after calc
-			Console.Write("New transaction? (Y, N)");
+			Console.Write("\nNew transaction? (Y, N) ");
 
 			char response = char.Parse(Console.ReadLine());
 			if (response == 'Y') {
 				BeginTransaction();
 			}
 			else if (response == 'N') {
-				Console.WriteLine("Exiting program...");
+				Console.WriteLine("\nExiting program...");
 				Environment.Exit(0);
 			}
 			else
             {
-				Console.WriteLine("Invalid selection, please try again.");
+				Console.WriteLine("\nInvalid selection, please try again.");
 				NewTransaction();
             }
 		}
