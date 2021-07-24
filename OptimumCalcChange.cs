@@ -126,22 +126,32 @@ namespace MoneyChangeDue
 		}
 
 		public static void NewTransaction() {
-			// New transaction after calc
-			Console.Write("\nNew transaction? (Y, N) ");
+			try
+			{
+				// New transaction after calc
+				Console.Write("\nNew transaction? (Y, N) ");
 
-			char response = char.Parse(Console.ReadLine());
-			if (response == 'Y') {
-				BeginTransaction();
+				char response = char.Parse(Console.ReadLine());
+				if (response == 'Y')
+				{
+					BeginTransaction();
+				}
+				else if (response == 'N')
+				{
+					Console.WriteLine("\nExiting program...");
+					Environment.Exit(0);
+				}
+				else
+				{
+					Console.WriteLine("\nInvalid selection, please try again.");
+					NewTransaction();
+				}
 			}
-			else if (response == 'N') {
-				Console.WriteLine("\nExiting program...");
-				Environment.Exit(0);
-			}
-			else
-            {
-				Console.WriteLine("\nInvalid selection, please try again.");
+			catch
+			{
+				Console.WriteLine("\nPlease enter a response.");
 				NewTransaction();
-            }
+			}
 		}
 	}
 }
