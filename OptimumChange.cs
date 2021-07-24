@@ -6,11 +6,12 @@ namespace MoneyChangeDue
     static class OptimumChange
     {
 		public static List<decimal> moneyDenominations;
+		public static string countryCode;
 		static void Main(string[] args)
         {
 			// Define country and currency for global usage
 			Console.Write("Set country code for currency (MX, US): ");
-			string countryCode = Console.ReadLine();
+			countryCode = Console.ReadLine();
 
 			moneyDenominations = MoneyDenomination.SetMoneyDenomination(countryCode);
 
@@ -24,7 +25,7 @@ namespace MoneyChangeDue
 			BeginTransaction();
 		}
 
-		public static void BeginTransaction()
+		static void BeginTransaction()
         {
 			decimal productPrice = 0;
 			decimal paidAmount = 0;
@@ -57,7 +58,7 @@ namespace MoneyChangeDue
 		}
 
 		/*
-		 * CalcChange method can be called by sending product price and paid amount as arguments.
+		 * CalculateChange method can be called by sending product price and paid amount as arguments.
 		 * This method will return a sorted list with the optimum change details per denomination.
 		 */
 		public static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount)
@@ -125,7 +126,7 @@ namespace MoneyChangeDue
 			return changeCalc;
 		}
 
-		public static void NewTransaction() {
+		static void NewTransaction() {
 			try
 			{
 				// New transaction after calc
