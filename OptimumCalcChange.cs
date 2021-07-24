@@ -56,6 +56,10 @@ namespace MoneyChangeDue
 			NewTransaction();
 		}
 
+		/*
+		 * CalcChange method can be called by sending product price and paid amount as arguments.
+		 * This method will return a sorted list with the optimum change details per denomination.
+		 */
 		public static SortedList<decimal, decimal> CalcChange(decimal productPrice, decimal paidAmount)
 		{
 			SortedList<decimal, decimal> changeCalc = new();
