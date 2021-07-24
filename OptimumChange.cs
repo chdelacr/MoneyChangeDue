@@ -63,7 +63,7 @@ namespace MoneyChangeDue
 		 */
 		public static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount)
 		{
-			SortedList<decimal, decimal> changeCalc = new();
+			SortedList<decimal, decimal> changeCalc = new SortedList<decimal, decimal>();
 			decimal changeDue = 0;
 
 			try
@@ -95,6 +95,7 @@ namespace MoneyChangeDue
 				else
 				{
 					Console.WriteLine("\nEntered amounts have more than two decimals. Please make sure to enter the correct values.");
+                    Environment.Exit(0);
 				}
 			}
 			catch
