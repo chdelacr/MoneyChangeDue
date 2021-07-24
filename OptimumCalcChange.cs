@@ -26,24 +26,36 @@ namespace MoneyChangeDue
 
 		public static void BeginTransaction()
         {
+			decimal productPrice = 0;
+			decimal paidAmount = 0;
 			try
             {
 				// Product price and paid amount
 				Console.Write("Product price: ");
-				decimal productPrice = decimal.Parse(Console.ReadLine());
+				productPrice = decimal.Parse(Console.ReadLine());
 
 				Console.Write("Paid amount: ");
-				decimal paidAmount = decimal.Parse(Console.ReadLine());
-
-				CalcChange(productPrice, paidAmount);
+				paidAmount = decimal.Parse(Console.ReadLine());				
 			}
 			catch
             {
 				Console.WriteLine("Only numeric values allowed.");
-            }			
+            }
+
+			SortedList<decimal, decimal> changeCalc = CalcChange(productPrice, paidAmount);
+
+			// Display optimum change details from sorted list
+			Console.WriteLine("Change details per denomination:");
+			Console.WriteLine("Denomination - Total");
+			foreach (decimal denomination in changeCalc.Keys)
+			{
+				Console.WriteLine("$" + denomination + " - " + changeCalc[denomination]);
+			}
+
+			NewTransaction();
 		}
 
-		public static void CalcChange(decimal productPrice, decimal paidAmount)
+		public static SortedList<decimal, decimal> CalcChange(decimal productPrice, decimal paidAmount)
 		{
 			decimal changeDue = 0;
 			try
@@ -71,10 +83,10 @@ namespace MoneyChangeDue
 				Console.WriteLine("Only numeric values allowed.");
 			}
 
-			// Use sorted list to save count per denomination
 			SortedList<decimal, decimal> changeCalc = new();
 			try
             {
+				// Save count per denomination
 				foreach (decimal denomination in moneyDenominations)
 				{
 					if (changeDue / denomination >= 1)
@@ -89,17 +101,9 @@ namespace MoneyChangeDue
 			catch (DivideByZeroException)
             {
 				Console.WriteLine("A money denomination cannot be equal to 0.");
-            }			
+            }
 
-			// Display optimum change details from sorted list
-			Console.WriteLine("Change details per denomination:");
-			Console.WriteLine("Denomination - Total");
-			foreach (decimal denomination in changeCalc.Keys)
-			{	
-				Console.WriteLine("$" + denomination + " - " + changeCalc[denomination]);
-			}
-
-			NewTransaction();
+			return changeCalc;
 		}
 
 		public static void NewTransaction() {
