@@ -5,17 +5,17 @@ namespace MoneyChangeDue
 {
     static class OptimumCalcChange
     {
-		public static List<decimal> currencies;
+		public static List<decimal> moneyDenominations;
 		static void Main(string[] args)
         {
-			// Define country and currencies for global usage
+			// Define country and currency for global usage
 			Console.Write("Set country code for currency (MX, US): ");
 			string countryCode = Console.ReadLine();
 
-			currencies = MoneyDenomination.SetMoneyDenomination(countryCode);
+			moneyDenominations = MoneyDenomination.SetMoneyDenomination(countryCode);
 
 			// Validate country code
-			if (currencies == null)
+			if (moneyDenominations == null)
 			{
 				Console.WriteLine("Invalid country code. Please make sure to enter one of the country codes between parenthesis.");
 				Environment.Exit(0);
@@ -59,20 +59,23 @@ namespace MoneyChangeDue
 			// Use sorted list to save count per denomination
 			SortedList<decimal, decimal> changeCalc = new();
 
-			foreach (decimal money in currencies)
+			foreach (decimal denomination in moneyDenominations)
 			{
-				if (changeDue / money >= 1)
+				if (changeDue / denomination >= 1)
 				{
-					changeCalc.Add(money, Math.Truncate(changeDue / money));
+					changeCalc.Add(denomination, Math.Truncate(changeDue / denomination));
+
+					// Update change as the remainder with respect to money denomination
+					changeDue %= denomination;
 				}
 			}
 
 			// Display optimum change details from sorted list
 			Console.WriteLine("Change details per denomination:");
 			Console.WriteLine("Denomination - Total");
-			foreach (decimal money in changeCalc.Keys)
+			foreach (decimal denomination in changeCalc.Keys)
 			{	
-				Console.WriteLine("$" + money + " - " + changeCalc[money]);
+				Console.WriteLine("$" + denomination + " - " + changeCalc[denomination]);
 			}
 
 			NewTransaction();
