@@ -5,8 +5,8 @@ namespace MoneyChangeDue
 {
     public static class OptimumChange
     {
-		public static List<decimal> moneyDenominations;
-		public static string countryCode;
+		static List<decimal> moneyDenominations;
+		static string countryCode;
 		static void Main(string[] args)
         {
 			// Define country and currency for global usage
@@ -62,7 +62,7 @@ namespace MoneyChangeDue
 		 * This method will return a sorted list with the optimum change details per denomination.
          * This overloaded method is used by the main program.
 		*/
-		public static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount)
+		static SortedList<decimal, decimal> CalculateChange(decimal productPrice, decimal paidAmount)
 		{
 			SortedList<decimal, decimal> changeCalc = new SortedList<decimal, decimal>();
 			decimal changeDue = 0;
